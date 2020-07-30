@@ -1,24 +1,31 @@
 # VERSION 1.0
 FROM ljishen/qemu-arm
-MAINTAINER Jianshen Liu <jliu120@ucsc.edu>
+MAINTAINER Alex Bistagne <abistagn@ucsc.edu>
 
-ENV MEMORY 4G
-ENV SMP 4
-ENV VMLINUXZ /root/system/vmlinuz-4.9.0-3-arm64
-ENV INITRD_IMG /root/system/initrd.img-4.9.0-3-arm64
+#code from my job at RREES lab
+RUN apt-get intall -y qemu-utils \
+     && curl https://codeload.github.com/dhruvvyas90/qemu-rpi-kernel/zip/master > kernel.zip
+     && unzip kernel.zip -d /tmp
+     && mv /tmp/*/kernel-qemu-*-buster /tmp/kernel-buster
+     && mv /tmp/*/versatile-pb-buster.dtb /tmp/versatile.dtb
+
+ENV KERNEL-BUSTER 
 ENV DRIVE_FILE /root/system/hda.qcow2
 
+EXPOSE -P 5022
+EXPOSE -P 1234
+
 CMD ["sh", "-c", \
-     "qemu-system-aarch64 \
-      -M virt \
-      -m $MEMORY \
-      -smp $SMP \
-      -cpu cortex-a53 \
-      -kernel $VMLINUXZ \
-      -initrd $INITRD_IMG \
-      -append 'root=/dev/vda1 console=ttyAMA0' \
-      -drive if=none,file=${DRIVE_FILE},format=qcow,id=hd0 \
-      -device virtio-blk-pci,drive=hd0 \
-      -netdev user,id=net0,hostfwd=tcp::22-:22 \
-      -device virtio-net-pci,netdev=net0 \
-      -nographic"]
+     "qemu-system-arm \
+        -kernel /tmp/kernel-buster \
+        -cpu arm1176 \
+        -m 256 \
+        -M /tmp/versatilepb \
+        -append "root=/deb/sda2 rootfstype=ext4 rw" \
+        -hda DRIVE_FILE \
+        -nographic \
+        -net nic \
+        -net user,hostfwd=tcp::5022-:22 \
+        -dtb versatile.dtb \
+        -monitor telnet:127.0.0.1:1234,server,nowait"]
+        
