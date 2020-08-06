@@ -10,22 +10,33 @@ RUN apt-get intall -y qemu-utils \
      && mv /tmp/*/versatile-pb-buster.dtb /tmp/versatile.dtb
 
 ENV KERNEL-BUSTER 
-ENV DRIVE_FILE /root/system/hda.qcow2
+ENV DRIVE_FILE /var/img/Rasbian.img
+ENV STOP /var/img/stop
+#expose /var/img to the outside
 
 EXPOSE -P 5022
-EXPOSE -P 1234
+EXPOSE 1234 
+#don't publish 1234
 
 CMD ["sh", "-c", \
-     "qemu-system-arm \
+     " ( until test -f $DRIVE_FILE; do sleep 1; done && \
+        qemu-system-arm \
         -kernel /tmp/kernel-buster \
         -cpu arm1176 \
         -m 256 \
         -M /tmp/versatilepb \
         -append "root=/deb/sda2 rootfstype=ext4 rw" \
-        -hda DRIVE_FILE \
+        -hda $DRIVE_FILE \
         -nographic \
         -net nic \
         -net user,hostfwd=tcp::5022-:22 \
         -dtb versatile.dtb \
-        -monitor telnet:127.0.0.1:1234,server,nowait"]
+        -no-shutdown \
+        -monitor telnet:127.0.0.1:1234,server,nowait ) &
+     ( until test -f $STOP; \
+          do sleep 1; \
+          done && \
+          telnet 127.0.0.1 1234 && \
+          commit && \
+          q ) "] 
         
