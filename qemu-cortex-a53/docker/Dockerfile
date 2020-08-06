@@ -3,7 +3,7 @@ FROM ljishen/qemu-arm
 MAINTAINER Alex Bistagne <abistagn@ucsc.edu>
 
 #code from my job at RREES lab
-RUN apt-get intall -y qemu-utils \
+RUN apt-get install -y qemu-utils \
      && curl https://codeload.github.com/dhruvvyas90/qemu-rpi-kernel/zip/master > kernel.zip \
      && unzip kernel.zip -d /tmp \
      && mv /tmp/*/kernel-qemu-*-buster /tmp/kernel-buster \
