@@ -10,8 +10,8 @@ RUN apt-get intall -y qemu-utils \
      && mv /tmp/*/versatile-pb-buster.dtb /tmp/versatile.dtb
 
 ENV KERNEL-BUSTER 
-ENV DRIVE_FILE /var/img/Rasbian.img
-ENV STOP /var/img/stop
+ENV DRIVE_FILE /var/tmp/img/Rasbian.img
+ENV STOP /var/tmp/img/stop
 #expose /var/img to the outside
 
 EXPOSE -P 5022
