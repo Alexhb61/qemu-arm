@@ -8,8 +8,7 @@ RUN apt-get intall -y qemu-utils \
      && unzip kernel.zip -d /tmp
      && mv /tmp/*/kernel-qemu-*-buster /tmp/kernel-buster
      && mv /tmp/*/versatile-pb-buster.dtb /tmp/versatile.dtb
-
-ENV KERNEL-BUSTER 
+     
 ENV DRIVE_FILE /var/tmp/img/Rasbian.img
 ENV STOP /var/tmp/img/stop
 #expose /var/img to the outside
