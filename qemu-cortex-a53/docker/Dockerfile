@@ -31,7 +31,7 @@ CMD ["sh", "-c", \
         -net user,hostfwd=tcp::5022-:22 \
         -dtb versatile.dtb \
         -no-shutdown \
-        -monitor telnet:127.0.0.1:1234,server,nowait ) &
+        -monitor telnet:127.0.0.1:1234,server,nowait ) & \
      ( until test -f $STOP; \
           do sleep 1; \
           done && \
