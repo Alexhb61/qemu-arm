@@ -1,3 +1,9 @@
+# Notes
+The emulator for `Raspberry Pi 3` waits until you load a `Rasbian.img` into `/var/tmp/img/` then starts the emulator.
+It stops and saves the emulator when you make any file named `stop` inside `/var/tmp/img/`.
+
+
+
 # An Approximation Emulator for Raspberry Pi 3 on Cortex-A53
 
 [![](https://images.microbadger.com/badges/image/ljishen/qemu-cortex-a53.svg)](http://microbadger.com/images/ljishen/qemu-cortex-a53)
