@@ -1,0 +1,3 @@
+[submodule "qemu-cortex-a53/system/qemu-rpi-kernel"]
+	path = qemu-cortex-a53/system/qemu-rpi-kernel
+	url = git@github.com:dhruvvyas90/qemu-rpi-kernel.git
