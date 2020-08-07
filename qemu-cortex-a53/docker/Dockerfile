@@ -4,11 +4,9 @@ MAINTAINER Alex Bistagne <abistagn@ucsc.edu>
 
 #code from my job at RREES lab
 RUN apt-get install -y qemu-utils \
-     && curl https://codeload.github.com/dhruvvyas90/qemu-rpi-kernel/zip/master > kernel.zip \
-     && unzip kernel.zip -d /tmp \
-     && mv /tmp/*/kernel-qemu-*-buster /tmp/kernel-buster \
-     && mv /tmp/*/versatile-pb-buster.dtb /tmp/versatile.dtb 
-     
+     && mv /root/system/qemu-rpi-kernel/kernel-qemu-*-buster /root/system/qemu-rpi-kernel/kernel-qemu-buster
+ENV KERNEL /root/system/qemu-rpi-kernel/kernel-qemu-buster     
+ENV DTB /root/system/qemu-rpi-kernel/versatile-pb-buster.dtb     
 ENV DRIVE_FILE /var/tmp/img/Rasbian.img
 ENV STOP /var/tmp/img/stop
 #expose /var/img to the outside
@@ -20,10 +18,10 @@ EXPOSE 1234
 CMD ["sh", "-c", \
      " ( until test -f $DRIVE_FILE; do sleep 1; done && \
         qemu-system-arm \
-        -kernel /tmp/kernel-buster \
+        -kernel KERNEL \
         -cpu arm1176 \
         -m 256 \
-        -M /tmp/versatilepb \
+        -M DTB \
         -append "root=/deb/sda2 rootfstype=ext4 rw" \
         -hda $DRIVE_FILE \
         -nographic \
