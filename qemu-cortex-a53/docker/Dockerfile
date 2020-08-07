@@ -2,9 +2,9 @@
 FROM ljishen/qemu-arm
 MAINTAINER Alex Bistagne <abistagn@ucsc.edu>
 
-#code from my job at RREES lab
+ENV VERSION 4.19.50
 RUN apt-get install -y qemu-utils \
-     && mv /root/system/qemu-rpi-kernel/kernel-qemu-*-buster /root/system/qemu-rpi-kernel/kernel-qemu-buster
+     && mv /root/system/qemu-rpi-kernel/kernel-qemu-${VERSION}-buster /root/system/qemu-rpi-kernel/kernel-qemu-buster
 ENV KERNEL /root/system/qemu-rpi-kernel/kernel-qemu-buster     
 ENV DTB /root/system/qemu-rpi-kernel/versatile-pb-buster.dtb     
 ENV DRIVE_FILE /var/tmp/img/Rasbian.img
